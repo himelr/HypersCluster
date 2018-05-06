@@ -1,4 +1,7 @@
+package com.example.demo.actors
+
 import akka.actor.Actor
+import com.example.demo.MyMsg
 
 class NodeActor extends Actor {
   override def receive: Receive = {
