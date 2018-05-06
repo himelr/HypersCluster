@@ -1,6 +1,8 @@
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
-
+target/streams/*
+target/.history
+target/resolution-cache/*
 dist/*
 lib_managed/
 src_managed/
