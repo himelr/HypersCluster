@@ -1,6 +1,7 @@
 package com.example.demo
 
 import akka.actor.{ActorSystem, Props}
+import akka.cluster.MemberStatus
 import akka.cluster.routing.{ClusterRouterPool, ClusterRouterPoolSettings}
 import akka.routing.RoundRobinPool
 import com.example.demo.actors.NodeActor
@@ -19,7 +20,6 @@ object ClusterMain extends App {
   // start other cluster node by using port number other than 2551 and 2555
   // to start traffic generation, run the jar with port number 2555 (see code below)
   // Note: need to change the ip address below and in application.conf (sorry for that, cumbersome)
-  if (config.getString("akka.remote.netty.tcp.port") == "2551") {
     println(s"now creating a router towards node actors")
     val router = system.actorOf(ClusterRouterPool(
       local = RoundRobinPool(8),
@@ -32,7 +32,7 @@ object ClusterMain extends App {
       name = "routeractor")
 
     println(s"router: ${router.path}")
-  }
+
 
   if (config.getString("akka.remote.netty.tcp.port") == "2555") {
     Thread.sleep(5000)
@@ -48,5 +48,9 @@ object ClusterMain extends App {
 
     Thread.sleep(5000)
   }
+  val cluster = akka.cluster.Cluster(system)
+
+  val members = cluster.state.members.filter(_.status == MemberStatus.Up)
+
 }
 
