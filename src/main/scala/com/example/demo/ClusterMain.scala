@@ -14,8 +14,6 @@ case class MyMsg(n: Int)
 object ClusterMain extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("hyperscluster")
-  val dbConnection = new DbConnection
-  dbConnection.query()
   // run jar with command java -DPORT=2555 -DHOSTNAME=127.0.0.1 -jar hyperscluster-assembly-1.0.jar
   // (replace ip address with your address)
   // this will create seed node and router towards the cluster (see below)
@@ -44,18 +42,17 @@ object ClusterMain extends App {
     // note you need to change ip address in application.conf, too
     val router = system.actorSelection("akka.tcp://hyperscluster@127.0.0.1:2551/user/routeractor")
 
-    (1 to 200).foreach(f = (i) => {
+    (1 to 3).foreach(f = (i) => {
       router ! MyMsg(i)
       Thread.sleep(500)
     })
 
     Thread.sleep(5000)
   }
-  val cluster = akka.cluster.Cluster(system)
-
-  val members = cluster.state.members.filter(_.status == MemberStatus.Up)
 
   val pubAc = system.actorOf(SubscribeActor.props())
+
+  println("Db" + DbConnection.query(6, 2))
 
 }
 
