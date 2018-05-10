@@ -5,6 +5,7 @@ import akka.cluster.MemberStatus
 import akka.cluster.routing.{ClusterRouterPool, ClusterRouterPoolSettings}
 import akka.routing.RoundRobinPool
 import com.example.demo.actors.NodeActor
+import com.example.demo.actors.db.DbConnection
 import com.typesafe.config.ConfigFactory
 
 case class MyMsg(n: Int)
@@ -12,7 +13,8 @@ case class MyMsg(n: Int)
 object ClusterMain extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("hyperscluster")
-
+  val dbConnection = new DbConnection
+  dbConnection.query()
   // run jar with command java -DPORT=2555 -DHOSTNAME=127.0.0.1 -jar hyperscluster-assembly-1.0.jar
   // (replace ip address with your address)
   // this will create seed node and router towards the cluster (see below)

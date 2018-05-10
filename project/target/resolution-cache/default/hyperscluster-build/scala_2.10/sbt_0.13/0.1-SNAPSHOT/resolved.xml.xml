@@ -4,7 +4,7 @@
 		module="hyperscluster-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20180508203627"
+		publication="20180510175438"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>

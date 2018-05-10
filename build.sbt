@@ -6,6 +6,8 @@ scalaVersion := "2.12.5"
 
 val akkaVersion = "2.5.0"
 
+unmanagedJars in Compile += file("mysql-connector-java-5.1.16.jar")
+
 libraryDependencies ++= {
   Seq(
     "com.typesafe.akka" %% "akka-actor" % "2.5.11",
@@ -27,6 +29,9 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-testkit" % "2.5.11",
     "org.iq80.leveldb"            % "leveldb"          % "0.7",
     "org.fusesource.leveldbjni"   % "leveldbjni-all"   % "1.8",
-    "com.typesafe.akka" %% "akka-contrib" % "2.5.11"
+    "com.typesafe.akka" %% "akka-contrib" % "2.5.11",
+    "mysql" % "mysql-connector-java" % "5.1.16"
+
   )
+
 }
