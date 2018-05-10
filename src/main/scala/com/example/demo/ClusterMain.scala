@@ -2,9 +2,10 @@ package com.example.demo
 
 import akka.actor.{ActorSystem, Props}
 import akka.cluster.MemberStatus
+import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.routing.{ClusterRouterPool, ClusterRouterPoolSettings}
 import akka.routing.RoundRobinPool
-import com.example.demo.actors.NodeActor
+import com.example.demo.actors.{NodeActor, SubscribeActor}
 import com.example.demo.actors.db.DbConnection
 import com.typesafe.config.ConfigFactory
 
@@ -53,6 +54,8 @@ object ClusterMain extends App {
   val cluster = akka.cluster.Cluster(system)
 
   val members = cluster.state.members.filter(_.status == MemberStatus.Up)
+
+  val pubAc = system.actorOf(SubscribeActor.props())
 
 }
 
