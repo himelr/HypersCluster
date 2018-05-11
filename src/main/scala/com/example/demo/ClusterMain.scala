@@ -1,12 +1,9 @@
 package com.example.demo
 
 import akka.actor.{ActorSystem, Props}
-import akka.cluster.MemberStatus
-import akka.cluster.pubsub.DistributedPubSub
 import akka.cluster.routing.{ClusterRouterPool, ClusterRouterPoolSettings}
 import akka.routing.RoundRobinPool
 import com.example.demo.actors.{NodeActor, SubscribeActor}
-import com.example.demo.actors.db.DbConnection
 import com.typesafe.config.ConfigFactory
 
 case class MyMsg(n: Int)
@@ -34,25 +31,7 @@ object ClusterMain extends App {
 
     println(s"router: ${router.path}")
 
-
-  if (config.getString("akka.remote.netty.tcp.port") == "2555") {
-    Thread.sleep(5000)
-
-    // your ip address here (sorry)
-    // note you need to change ip address in application.conf, too
-    val router = system.actorSelection("akka.tcp://hyperscluster@127.0.0.1:2551/user/routeractor")
-
-    (1 to 3).foreach(f = (i) => {
-      router ! MyMsg(i)
-      Thread.sleep(500)
-    })
-
-    Thread.sleep(5000)
-  }
-
   val pubAc = system.actorOf(SubscribeActor.props())
-
-  println("Db" + DbConnection.query(6, 2))
 
 }
 

@@ -25,7 +25,7 @@ class SubscribeActor extends Actor with ActorLogging {
   def receive = {
     case s: String ⇒ println("helllo" + s)
 
-    case list: Array[String] => compare(list)
+    case list: Array[String] => println("Starting comparing");compare(list)
 
     case start: (Int, Long) =>
       frontEnd = sender()
